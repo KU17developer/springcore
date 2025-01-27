@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!--  spring-bean을 설정하는 파일  ( spring-bean = java class ) -->
+    <!--
+        bean태그를 이용해서 class를 springbean으로 등록
+        id속성 : springbean 이름
+        class(속성) : springbean으로 등록할 클래스  -> 패키지명.클래스명
+    -->
+
+    <bean id = "p" class = "com.bs.spring.test.model.dto.Person"/>
+
+    <bean id = "p2" class = "com.bs.spring.test.model.dto.Person">
+        <!-- setName() 메소드로 양커비 저장 -->
+        <property name="name" value="양커비"/>
+    </bean>
+
+
+</beans>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+  <!--
+    spring bean 등록하기
+
+    bean 태그를 이용해서 등록
+    id : bean을 구분하는 이름
+    class : spring bean으로 등록할 클래스, 패키지명.클래스명 으로 작성.
+
+  -->
+
+
+    <!-- 기본 생성자로 클래스를 생성 설정 -> 기본 생성자가 있어야 한다. -->
+    <bean id = "animal" class = "com.bs.spring.test.model.dto.Animal"/>
+
+    <!-- 매개변수 있는 생성자를 이용해서 spring bean 설정하기 -->
+    <bean id = "animal2" class = "com.bs.spring.test.model.dto.Animal">
+
+      <constructor-arg index="0" value="설기"/>
+      <constructor-arg index="1" value="1"/>
+      <constructor-arg index="2" value="남"/>
+      <constructor-arg index="3" value="3.12"/>
+
+    </bean>
+
+
+    <!-- setter를 이용해서 springbean의 초기값 세팅하기 -->
+    <bean id = "animal3" class = "com.bs.spring.test.model.dto.Animal">
+
+      <property name="name" value="도토리 사망"/>
+
+    </bean>
+
+    <!--
+
+        다른 객체를 의존하고 있을 때 spring bean 등록하기
+        spring bean으로 등록할 클래스의 필드에 다른 클래스가 있을 때
+        ref속성을 이용해서 다른 spring bean을 참조함
+    -->
+
+    <bean id = "person" class = "com.bs.spring.test.model.dto.Person">
+
+      <property name="animal" ref="animal2"/>
+
+    </bean>
+
+
+    <bean id = "person1" class = "com.bs.spring.test.model.dto.Person">
+
+      <constructor-arg index="0" value="유병승"/>
+      <constructor-arg index="1" value="19"/>
+      <constructor-arg index="2" value="경기도 시흥시"/>
+      <constructor-arg index="3" ref="animal3"/>
+
+    </bean>
+
+    <!--
+         spring bean을 생성, 소멸할 때 특정 로직을 실행하기
+         생성 : init-method라는 속성을 이용해서 설정
+         소멸 : destroy-method속성을 이용해서 설정
+
+    -->
+
+    <bean id = "animal4" class = "com.bs.spring.test.model.dto.Animal" init-method="initTest" destroy-method="destroyTest">
+
+      <property name="name" value="뽀삐"/>
+      <property name="age"  value="1"/>
+      <property name="gender" value="여"/>
+      <property name="weight" value="4.3"/>
+
+    </bean>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--
+        어노테이션으로 등록된 spring bean 찾기
+        <context:component-scan>태그를 이용 -> spring bean을검색하는 기준을 설정
+        baskpackage="기준 패키지 설정"
+    -->
+
+    <!--com.bs.spring 패키지 내부에 있는 모든 클래스 검색하라는 뜻 -->
+    <context:component-scan base-package="com.bs.spring"/>
+
+    <!--
+         mvc모듈에서 @Controller 기능 수행하기
+         <mvc:annotation-driven/> 태그를 이용해서 controller 활성화
+    -->
+
+    <mvc:annotation-driven/>
+
+
+    <!--web mvc 설정하기-->
+    <!--resource 설정하기-->
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+
+
+    <!--
+        기본 viewresolver 등록하기
+        클라이언트에게 응답을 처리하는 객체를 말한다.
+        jsp로 응답하는 viewresolver 등록하기
+    -->
+
+  <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+
+      <property name="suffix" value=".jsp"/>
+      <property name="prefix" value="/WEB-INF/views/"/>
+
+  </bean>
+
+
+
+
+</beans>
