@@ -26,7 +26,7 @@ public class Main {
             System.out.println(beanName);
         }
 
-        // 등록된 spring bean 가져오기
+        // 등록된 spring bean 가져오기  context.getBean( "이름을 문자열로 적기", 클래스 타입을 적음 )
         Person p = context.getBean("p", Person.class);
         System.out.println(p);
 
