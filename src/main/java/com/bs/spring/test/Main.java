@@ -4,16 +4,15 @@ import com.bs.spring.test.model.dao.MyDao;
 import com.bs.spring.test.model.dto.Person;
 import com.bs.spring.test.model.service.MyService;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.support.SimpleBeanDefinitionRegistry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import java.util.Arrays;
 
 public class Main {
+
     public static void main(String[] args) {
         // spring 설정 파일에서 POJO 객체 불러오기
         // spring 설정파일
