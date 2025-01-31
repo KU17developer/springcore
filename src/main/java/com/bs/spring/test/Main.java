@@ -33,7 +33,10 @@ public class Main {
         Person p2 = context.getBean("p2", Person.class);
         System.out.println(p2);
 
+
+        // 애는 MyConfig에 있는 @Configuration 된거 가져오는거임!
         ApplicationContext context2 = new AnnotationConfigApplicationContext();
+
         Arrays.stream(context2.getBeanDefinitionNames())
                 .forEach(beanName -> {
                     System.out.println(beanName);
@@ -47,10 +50,13 @@ public class Main {
 
         ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(registry);
 
+
+        // com.bs.spring 밑에 있는 bean들 가져와!
         scanner.scan("com.bs.spring");
         System.out.println("====== @Configuration ======");
 
 
+        // 아래 stream하고 똑같은 코드. 요즘은 stream이 더 많이 쓰이긴함.
         for (String beanName : registry.getBeanDefinitionNames()) {
             System.out.println(beanName);
         }

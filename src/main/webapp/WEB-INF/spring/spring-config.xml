@@ -17,7 +17,8 @@
 
 
     <bean id = "p2" class = "com.bs.spring.test.model.dto.Person">
-        <!-- setName() 메소드로 양커비 저장 -->
+        <!-- setName() 메소드로 양커비 저장  -->
+        <!-- property는 필드를 지정 -->
         <property name="name" value="양커비"/>
     </bean>
 

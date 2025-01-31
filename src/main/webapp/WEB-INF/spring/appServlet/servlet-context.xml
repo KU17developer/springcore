@@ -32,7 +32,8 @@
     </bean>
 
 
-    <!-- setter를 이용해서 springbean의 초기값 세팅하기 -->
+    <!-- 생성할 때 setter를 이용해서 springbean의 초기값 세팅하기 -->
+    <!-- SETTERR 없으면 에러남 -->
     <bean id = "animal3" class = "com.bs.spring.test.model.dto.Animal">
 
       <property name="name" value="도토리 사망"/>
@@ -40,10 +41,10 @@
     </bean>
 
     <!--
-
         다른 객체를 의존하고 있을 때 spring bean 등록하기
         spring bean으로 등록할 클래스의 필드에 다른 클래스가 있을 때
-        ref속성을 이용해서 다른 spring bean을 참조함
+
+        animal은 객체 즉 참조형 자료형이잖아. 그니깐 ref속성을 이용해서 다른 spring bean을 참조함
     -->
 
     <bean id = "person" class = "com.bs.spring.test.model.dto.Person">
@@ -53,6 +54,7 @@
     </bean>
 
 
+    <!-- 생성자를 이용해보기 -->
     <bean id = "person1" class = "com.bs.spring.test.model.dto.Person">
 
       <constructor-arg index="0" value="유병승"/>
@@ -97,7 +99,7 @@
     <!--
         어노테이션으로 등록된 spring bean 찾기
         <context:component-scan>태그를 이용 -> spring bean을검색하는 기준을 설정
-        baskpackage="기준 패키지 설정"
+        basepackage="기준 패키지 설정"
     -->
 
     <!--com.bs.spring 패키지 내부에 있는 모든 클래스 검색하라는 뜻 -->

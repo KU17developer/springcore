@@ -20,6 +20,7 @@ public class TestController {
     // 의존성 등록 할때 기준이 되는건 필드값하고 매개변수만 설정이 가능
     // 필드값만!! , 메소드 내부에 선언되는 지역변수들은 불가능하다라는 뜻임!
 
+
     @Autowired
     @Qualifier("animal2")
     private Animal a;

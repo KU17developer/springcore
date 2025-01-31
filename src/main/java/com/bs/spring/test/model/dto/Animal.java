@@ -18,6 +18,8 @@ public class Animal {
     private String gender;
     private double weight;
 
+//    Alt + insert 단축키를 사용하면 생성자 쉽게 만들 수 있음!
+
 //    public Animal() {}
 //
 //    public Animal(String name, int age, String gender, double weight) {
@@ -30,6 +32,8 @@ public class Animal {
 //    public Animal(String name) {
 //        this.name = name;
 //    }
+//
+//    peroperty 쓰기 위해서 setter 선언!
 //
 //    public void setName(String name) {
 //        this.name = name;
