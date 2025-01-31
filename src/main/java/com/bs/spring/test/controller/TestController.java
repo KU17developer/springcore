@@ -14,12 +14,17 @@ import java.util.Scanner;
 
 @Controller
 public class TestController {
+
     // 의존성 등록하기
     // spring bean으로 등록된 객체를 가져와 사용
     // @Autowired 어노테이션을 이용해서 선언
     // 의존성 등록 할때 기준이 되는건 필드값하고 매개변수만 설정이 가능
     // 필드값만!! , 메소드 내부에 선언되는 지역변수들은 불가능하다라는 뜻임!
 
+
+    // @Autowired는 첫번째는 타입을 보고, 두번째는 변수명과 일치하는 ID값이 있는지 찾음.
+    // 최대 1개씩만 생성하는게 좋은듯..? 지금 animal은 anima11, 2, 3 3개 있잖아
+    // ID랑 필드명 항상 맞춰서 만드는건 힘드니깐 @Qualifier를 이용해서(id값을 지정해) 특정 빈을 선택해서 주입하게 만들 수 있다.
 
     @Autowired
     @Qualifier("animal2")
@@ -30,10 +35,11 @@ public class TestController {
     private Person p;
 
     // spring bean으로 등록되지 않은 클래스를
-    // @Autowired 선언하면 에러가 발생!
-    // @Autowired 어노테이션 옵션 설정하기
-    // 필수값 -> 무조건 넣어! 없으면 에러!
-    @Autowired(required=true)  // 있으면 넣고 없으면 넣지마.
+    // @Autowired 선언하면 에러가 발생! ( NoSuchBeanDefinitionException )
+    // @Autowired 어노테이션 옵션 설정하기 ( required )
+    // @Autowired는 필수값 -> 무조건 넣어! 없으면 에러!
+
+    @Autowired(required=false)  // false == 있으면 넣고 없으면 넣지(에러 발생시키지)마.
     private Scanner sc;
 
     @Autowired
