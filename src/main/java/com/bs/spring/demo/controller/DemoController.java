@@ -83,8 +83,16 @@ public class DemoController {
     // 파라미터값을 매개변수와 매칭하여 받아오기
     // 매개변수 선언할 때 파라미터의 key값과 동일하게 설정
     // devName, devAge, devEmail, devGender, devLang 파라미터를 전송
+    // 그래서 내가 이 이름과 똑같이만 설정해주면 스프링이 알아서 데이터를 매개변수에 넣어줌! (키값만 매칭만 시키면)
     // request.getParameter()메소드를 직접 사용하지 않아도됨!
+    // 명심!!  이렇게 직접 매칭해서 줄때는 기준이 반드시 보내주는 파라미터 키값과 매개변수 변수명이 일치하는 것만 값을 넣어줌!
+    // 그리고 형변환도 매개변수에 타입에 맞게 int나 배열로 알아서 형변환 해줌 ( 원래는 무조건 string 반환이었잖아. )
+    // 마지막으로 매개변수에 request 했었으면 request.setattribute이런식으로 담아서 보낼 수 있는데 여긴 없잖아. 그래서 Model을 사용하는거임!(model은 request와 생명주기는 같음)
+
+
     // 파라미터 데이터가 필수값(required)일때만 활용해 ㅠㅠ
+    // 왜냐하면 매개변수가 string인건 괜찮지만 int나 double형인 타입에 대해서 null이 들어오면 형변환중에 에러가 발생함..(null을 숫자로 형변환 할 수가 없으니)
+    // 그래서 통상 이렇게 1:1로 매칭해서 어떠한 데이터를 받을때는 진짜로 넘어오는 필수값일때만 사용.
     @RequestMapping("/demo/demo2.do")
     public String demo2(String devName, int devAge, String devEmail, String devGender, String[] devLang, Model model) {
 
@@ -101,11 +109,10 @@ public class DemoController {
                 .devName(devName)
                 .build();
 
-        // model객체에 저장하기
+        // 화면에 공유하기위해서 (jsp로 데이터를 보내기 위해) model객체에 저장하기
         // addAttribute()메소드를 이용해서 데이터를 저장
         // key, value 형식으로 저장
         model.addAttribute("demo", demo);
-
 
 
         return "demo/demoResult";
