@@ -18,14 +18,17 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Map;
 
+
+// 이 클래스는 스프링 컨테이너가 가지고 실행하는거니깐 @Controller 등록해서 Controller 클래스로 스프링 빈으로 등록!
 @Controller
 public class DemoController {
 
-    // 단순히 화면 전환용!
+    // 단순히 페이지 전환용!
     @RequestMapping("/demo/demo.do")
     public String demo() {
         return "demo/demo";
     }
+
 
     // 매핑메소드 파라미터 처리하기 -> 매개변수 활용하기
     // HttpServletRequest, HttpServletResponse 활용하기
