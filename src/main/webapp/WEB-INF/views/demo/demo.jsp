@@ -86,12 +86,12 @@
 
             <div class="form-group row">
                 <div class="col-sm-12">
-                    <button type="button" class = "btn btn-outline-primary col-sm-12"
-                            onclick="requestTest('demo1.do')" >
+                    <button type="button" class = "btn btn-outline-primary col-sm-12"  onclick="requestTest('demo1.do')" >
                         서블릿처럼 controller 이용하기
                     </button>
                 </div>
             </div>
+
 
             <div class="form-group row">
                 <div class="col-sm-12">

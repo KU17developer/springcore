@@ -32,6 +32,8 @@ public class DemoController {
 
     // 매핑메소드 파라미터 처리하기 -> 매개변수 활용하기
     // HttpServletRequest, HttpServletResponse 활용하기
+    // 서블릿 했던거 처럼 해보기!
+
     @RequestMapping("/demo/demo1.do")
     public void demo1(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException, ServletException {
 
@@ -48,15 +50,22 @@ public class DemoController {
         System.out.println(gender);
         System.out.println(Arrays.toString(devLang));
 
+        // 안하면 한글 깨지니깐 해줘야함!
         response.setContentType("text/plain;charset=utf-8");
+
+        // PrintWriter는 throws IOException 처리 해줘야함!
         PrintWriter out = response.getWriter();
         out.print(name);
         out.print(age);
         out.print(gender);
         out.print(Arrays.toString(devLang));
-        Demo d = Demo.builder().devName(name)
-                .devAge(age).devGender(gender)
-                .devLang(devLang).build();
+
+        Demo d = Demo.builder()
+                .devName(name)
+                .devAge(age)
+                .devGender(gender)
+                .devLang(devLang)
+                .build();
 
         request.setAttribute("demo", d);
 
