@@ -71,6 +71,7 @@
     -->
 
     <!-- 기본생성자로 생성한 다음에 setter를 이용해서 데이터 삽입! -->
+    <!-- init-method : 본인 클래스(animal)의 멤버 메소드인 initTest를 불러옴!  -->
     <bean id = "animal4" class = "com.bs.spring.test.model.dto.Animal" init-method="initTest" destroy-method="destroyTest">
 
       <property name="name" value="뽀삐"/>
@@ -115,6 +116,9 @@
 
     <!--web mvc 설정하기-->
     <!--resource 설정하기-->
+    <!-- 별이 2개면(**) 계층에 상관없이 resources로 시작하는거 다! -->
+    <!-- 정적인 리소스에 자원에 대한 디렉토리 연결! (img, css, js 등 ) -->
+    <!-- webapp부터 경로가 시작되기에 경로는 이렇게 적으면됨. -->
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
 
