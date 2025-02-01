@@ -32,6 +32,7 @@ public class DemoController {
 
     // 매핑메소드 파라미터 처리하기 -> 매개변수 활용하기
     // HttpServletRequest, HttpServletResponse 활용하기
+    // 필요한게 있으면 매개변수에 선언하면 스프링 컨테이너가 알아서 그 객체에 해당하는 타입에 의존성 주입을 다 해줌! 그러니깐 session도 매개변수에 넣어서 바로 쓸 수 있는거!
     // 서블릿 했던거 처럼 해보기!
 
     @RequestMapping("/demo/demo1.do")
@@ -73,11 +74,11 @@ public class DemoController {
         session.setAttribute("loginMember", "admin");
 
 
-
         request.getRequestDispatcher("/WEB-INF/views/demo/demoResult.jsp").forward(request,response);
         // return "";
 
     }
+
 
     // 파라미터값을 매개변수와 매칭하여 받아오기
     // 매개변수 선언할 때 파라미터의 key값과 동일하게 설정
