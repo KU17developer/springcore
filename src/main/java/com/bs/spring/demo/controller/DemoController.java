@@ -148,14 +148,18 @@ public class DemoController {
 
 
     // 어차피 객체로 만들거 파라미터를 DTO로 바로 저장하자!! ( 애를 커맨드라고 이야기함 )
-    // 조건 : 파라미터에 key와 DTO의 필드명이 일치하는 값만 저장 (스프링이 알아서 넣어줌!)
-    // 기본적으로 DTO 필드에 다른 클래스가 있으면 저장할 수 없다.
-    // 날짜 설정 java.util.Date는 스프링은 파싱을 하지 못함 ㅠㅠ
+    // 조건 : 파라미터에 key와 DTO의 필드명이 일치하는 값만 저장 (너무 중요!!!) (스프링이 알아서 객체 만들어서 넣어줌!)
+    // 명심할점 : 기본적으로 DTO 필드에 다른 클래스가 있으면 저장할 수 없다. ( 모든 자료형을 다 처리할 수는 없다. (추가적인 설정을 하면 되긴 하는듯? .이런거 이용해서.. 하지만 굳이..) )
+    // 커맨드 객체로 받을 때 날짜 설정 (예를 들어 생년월일같은 데이터 받을때..) java.util.Date는 스프링은 파싱을 하지 못함 ㅠㅠ.. 오류가 발생한다.. (init binder 같은거 쓰면 되긴함 나중에 찾아보고 사용해보기)
     // java.sql.Date는 가능함!
     // @ModelAttribute 어노테이션 -> Model에 바로 저장해줌
     @RequestMapping("/demo/demo4.do")
     public String demo4(
+                        // @ModelAttribute 어노테이션을 선언하면 데이터 받은 다음에 변수명(key값)으로 attribute로 저장을 시켜줌. ("d") 이런식으로 이름(key값)을 지정해서 저장할 수도 있음.!
+                        // 아마 model.addAttribute("demo", demo); 이런 부분까지 생략해주는 좋은 어노테이션 인것 같다..
                         @ModelAttribute("d") Demo demo,
+                        // 이런식으로 들어오는 값들 객체들 다 선언해놓고 키값과 안에 필드만 일치하면 다 집어넣어준다. 객체가 따로따로 분리돼있을때 이렇게도 값을 받을수 있는거임!
+                        // Demo 클래스 안에 Address 타입 필드가 있으니 System.out.println(demo); 이렇게 출력하면 한번에 다같이 출력됨! 즉 Demo 클래스 안에 Address에 값이 들어오는거다!
                         Address address){
 
         demo.setAddress(address);
