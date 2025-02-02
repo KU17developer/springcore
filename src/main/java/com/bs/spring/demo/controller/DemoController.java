@@ -3,6 +3,7 @@ package com.bs.spring.demo.controller;
 import com.bs.spring.demo.model.dto.Address;
 import com.bs.spring.demo.model.dto.Demo;
 import com.bs.spring.demo.view.MyView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -159,9 +160,9 @@ public class DemoController {
                         // 아마 model.addAttribute("demo", demo); 이런 부분까지 생략해주는 좋은 어노테이션 인것 같다..
                         @ModelAttribute("d") Demo demo,
                         // 이런식으로 들어오는 값들 객체들 다 선언해놓고 키값과 안에 필드만 일치하면 다 집어넣어준다. 객체가 따로따로 분리돼있을때 이렇게도 값을 받을수 있는거임!
-                        // Demo 클래스 안에 Address 타입 필드가 있으니 System.out.println(demo); 이렇게 출력하면 한번에 다같이 출력됨! 즉 Demo 클래스 안에 Address에 값이 들어오는거다!
                         Address address){
 
+        // Demo 클래스 안에 address 필드에 들어온값을 넣어주기!
         demo.setAddress(address);
 
         System.out.println(demo);
@@ -170,10 +171,17 @@ public class DemoController {
 
     }
 
-    // 파라미터를 Map으로 저장하기
 
+    // 파라미터를 Map으로 저장하기
+    // DTO가 없을 때 간단한 정보들을 유동적으로 받는, 단순히 단일값으로 돼있는 정보들을 저장할때 유용!
+    // 그래서 다수의 데이터가 넘어오는것에 대해서는 (체크박스 등) 정상적으로 처리를 못함..
     @RequestMapping("demo/demo5.do")
-    public String demo5(@RequestParam Map param, String[] devLang, Model model) {
+    public String demo5(
+                        // Map으로 받을 때는 @RequestParam이라고 선언을 해주고 Map 자료형 선언해서 받을수가 있음
+                        @RequestParam Map param,
+                        // 배열로 넘어오는것도 map으로 처리하고 싶으면 이렇게 따로 받으면됨! (자동으로 매핑은 해주니깐)
+                        String[] devLang,
+                        Model model) {
 
         param.put("devLang", devLang);
 
@@ -184,14 +192,17 @@ public class DemoController {
         return "demo/demoResult";
     }
 
-    // 추가 정보 가져오기
-    // Session 저장된 값, Cookie값, Header값
-    // @SessionAttribute(value="key") -> session
-    // @CookieValue(value="key") -> Cookie
-    // @RequestHeader(value="key") -> RequestHeader
 
+    // 추가 정보 가져오기
+    // Session 저장된 값, Cookie값, Header값 이런것들 가져오기
+    // @SessionAttribute(value="key") -> session에 저장된 값 가져오기 가능!
+    // @CookieValue(value="key") -> Cookie에 저장된 값 가져오기 가능!
+    // @RequestHeader(value="key") -> RequestHeader에 저장된 값 가져오기 가능!
     @RequestMapping("/demo/demo6.do")
     public String demo6(Demo demo,
+                        // Session 객체에서 Session Id값 가져와!
+                        // required = false를 주면 필수 값이 아님. 즉 없어도 오류페이지가 안뜸.
+                        // 하지만 required 속성을 안주게 되고 안에 session이나 cookie가 null이면 에러페이지뜸. 이럴때 에러페이지 만들거나 예외처리 등 다양하게 이용가능!
                         @SessionAttribute(value = "sessionId", required = false) String id,
                         @CookieValue(value="lunch", required = false) String menu,
                         @RequestHeader(value = "Accept") String accept) {
@@ -203,24 +214,29 @@ public class DemoController {
         return "demo/demoResult";
     }
 
+
     // 매핑메소드 리턴
-    // 기본적으로 String을 리턴 -> ViewResolver가 처리하는 대로 화면을 출력
-    // ModelAndView -> Model, view정보를 한번에 저장하는 객체
+    // 기본적으로 String을 리턴 -> 그 String을 가지고 ViewResolver가 처리하는 대로 화면을 출력
+    // ModelAndView -> Model, view 정보를 한번에 저장하는 객체
+    // 그냥 통합적으로 객체 보관해서 처리하는거임
+    // 인터셉트하고 aop 매개변수 전달할때 가끔 쓰이는듯?
     @RequestMapping("/demo/demo7.do")
     public ModelAndView demo7(Demo demo, ModelAndView mv){
 
-        // 데이터 저장하기
+        // 데이터 저장하기(메소드만 조금 달라졌지. model에서 addattribute랑 똑같은거임 그냥)
         mv.addObject("demo", demo);
 
-        // view 설정하기
+        // view 설정하기( 계속 했었던 String으로 리턴하는거랑 비슷 )
         mv.setViewName("demo/demoResult");
+
+        // 매개변수에 ModelAndView 안넣고 이런식으로 직접 생성해서 처리할 수도 있음.  new ModelAndView ( "뷰 네임", " 키 값", "벨류 값" )
         ModelAndView mv1 = new ModelAndView("demo/demoResult",
                 "demo", demo);
 
-        // view정보 확인하기
+        // 저장된 view정보 확인하기
         System.out.println(mv1.getViewName());
 
-        // model정보 확인하기
+        // 저장된 model정보 확인하기
         Map<String, Object> modelDate = mv1.getModel();
         System.out.println(modelDate);
 
@@ -228,10 +244,14 @@ public class DemoController {
     }
 
 
+
     // 리턴값으로 객체 설정하기 -> 데이터만 전송
-    // @ResponseBody
+    // @ResponseBody옵션 이용!
     // ajax요청처리, RestAPI로 서비스를 구성할 때 사용
     @RequestMapping("/demo/demo8.do")
+    // @ResponseBody를 이용하면 반환값을(String으로 해도) viewresolver가 아니라 데이터를 바디에 집어넣어서 응답을 할 수 있다!
+    // 페이지는 신경 안쓰고 데이터만 보내고 싶을 때 사용.
+    // 아래처럼 보낼때는 jackson 필요함.
     @ResponseBody
     public Demo returnObj(){
         return Demo.builder()
@@ -239,21 +259,32 @@ public class DemoController {
                 .build();
     }
 
+
     @RequestMapping("/demo/demo9.do")
     @ResponseBody
-    public Demo testObj(@RequestBody Demo demo){
+    public Demo testObj(
+                        // @RequestBody는 요청을 보냈을 때 페이로드에 있는 값을 자동으로 파싱해서 가져올 때 사용.
+                        // 즉 json 방식으로 넘어온 데이터를 demo(여기에서는)객체랑 맞춰서 파싱해주는 기능을 함.
+                        // 애도 마찬가지로 ajax 요청이나 RestApi 방식으로 요청을 보내는거 처리할때 사용!
+                        // 즉 페이로드에 있는 값을 demo(여기에서는) 객체로 만들어 줌. 그 객체(값?) 자체가 json방식으로 들어왔을 때!
+                        @RequestBody Demo demo
+                                                ){
         System.out.println(demo);
         return demo;
     }
 
-    // View구현체로 응답하기
 
+    // View구현체로 응답하기
+    // 배웠듯이 매개변수에 Myview view 쓰지않고 이렇게 의존성 주입받아서 써도 됨!
+    @Autowired
+    private MyView myview;
     @RequestMapping("/demo/demo10.do")
+
     public View myViewTest(MyView view, Model model){
 
         model.addAttribute("test", "나의 view");
 
-        return new MyView();
+        return myview;
     }
 
 }

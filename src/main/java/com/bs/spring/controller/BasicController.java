@@ -16,14 +16,18 @@ public class BasicController {
     // 매핑 메소드
     // 맨 처음 view안에 index.jsp 넣고 이렇게 설정해줘야 index 페이지를 찾아감!! (메인화면 연결!)
     @RequestMapping("/")
-    public String index(HttpSession session, HttpServletResponse response) {
+    public String index(
+                        // Session값 저장해야되니깐 session 매개변수 선언!
+                        HttpSession session,
+                        // adddCookie 해야하니깐 response 매개변수까지 선언!
+                        HttpServletResponse response) {
 
         // session 저장
         session.setAttribute("sessionId", "bsyoo");
         
         // Cookie 저장
         Cookie c = new Cookie("lunch", "pizza");
-        c.setMaxAge(60*60*24);
+        c.setMaxAge(60*60*24);  // 하루
         response.addCookie(c);
 
 

@@ -159,7 +159,7 @@
                 <div class="col-sm-12">
                     <button type="button" class = "btn btn-outline-primary col-sm-12"
                             onclick="ajaxRequest();" >
-                        ajax 요철
+                        ajax 요청
                     </button>
                 </div>
             </div>
