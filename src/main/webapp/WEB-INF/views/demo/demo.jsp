@@ -165,10 +165,29 @@
             </div>
 
 
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <button type="button" class = "btn btn-outline-primary col-sm-12"
+                            onclick="insertDemo();" >
+                        insert 실행하기
+                    </button>
+                </div>
+            </div>
+
+
 
         </form>
     </div>
     <script>
+        const insertDemo=()=>{
+            const form = document.querySelector("#devFrm");
+            form.action="${pageContext.request.contextPath}/demo/insertdemo.do";
+            form.submit();
+        }
+
+
+
+
         const ajaxRequest=()=>{
             const demo = {devName:"우감자", devAge:33, devGender:"남", devEmail:"woo@woo",devLang:["java", "javascript"]};
             fetch("${pageContext.request.contextPath}/demo/demo9.do",{

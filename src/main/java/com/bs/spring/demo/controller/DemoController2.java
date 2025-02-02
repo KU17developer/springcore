@@ -1,14 +1,34 @@
 package com.bs.spring.demo.controller;
 
 import com.bs.spring.demo.model.dto.Demo;
+import com.bs.spring.demo.model.service.DemoService;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+//@AllArgsConstructor
 
 @Controller
 // Controller 아래에다가도 @RequestMapping 이렇게 설정할 수 있음.
 // 클래스에다 이렇게 주소를 설정하는건 이 전체 매핑 메소드에 제일 앞에 붙는 (시작)주소가 되는거임. (아주 유용!!)
 @RequestMapping("/demo")
 public class DemoController2 {
+
+    // DemoController2는 DemoService에 의존한다.
+    // 애도 마찬가지로 필드가 1개니깐 @Autowired 없이 위에 @AllArgsConstructor 해주면 의존성 주입까지 해줌!
+    // 왜냐하면 @AllArgsConstructor 이렇게 하면 생성자가 한개밖에 없을테니깐.
+    // 가독성도 떨어지고.. 그래도 지금 배우는중이니깐 일일히 @Autowired 써보자! (권장되지는 않음)
+    //@Autowired
+    private DemoService demoService;
+
+    // 그리고 위에보다는 생성자를 통해서 주입하는걸 스프링에서는 더 권장한다.. 가독성도 굿
+    @Autowired
+    public DemoController2(DemoService demoService) {
+        this.demoService = demoService;
+    }
+
+
 
     // 요청을 매핑하는 어노테이션
     // RequestMapping : 전체에 대한 요청에 대한걸 매핑할때 사용
@@ -83,6 +103,14 @@ public class DemoController2 {
         // 1. mybatis.jar 파일 가져오기
         // 2. mybatis 설정파일 필요 (mybatis-config, mapper.xml)
         // 3. 위에 파일을 가져다 사용하는 SqlSession이 필요! ( SqlSession 안에는 DataSource라는 객체가 필요! )
+
+        int result = demoService.insertDemo(demo);
+        System.out.println(result);
+        if (result > 0) {}
+        else{}
+        // 입력구문이니깐 메인으로 이동하게 만들자!
+        // 여기서 redirect를 이용하는걸 prg패턴(post로 요청한걸 get으로 다시 재요청하도록 만드는)이라고도 한다.
+        return "redirect:/";
     }
 
 }

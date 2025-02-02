@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface DemoService {
 
-    // 인터페이스니깐 그냥 추상메소드 선언한거임!
+    // 인터페이스니깐 그냥 추상메소드 선언한거임! (인터페이스니깐 당연히 이 메소드들을 실행할 수 없음. DemoServiceimpl 클래스를 만들어서 사용하자)
     List<Demo> selectDemoList();
 
     int insertDemo(Demo demo);
