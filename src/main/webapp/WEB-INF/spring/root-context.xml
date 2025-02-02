@@ -3,4 +3,52 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!--
+        (DB접속하는 것은 이 프로젝트 전역에서 다 접속할 수 있어야하기에 여기에 섫정)
+        (Context영역이 2개라고 했잖아. servlet-Context 영역이 있고 root-Context(전역) 영역이 있음)
+
+        DB접속을 위한 클래스를 bean으로 등록하기
+        1. DataSource클래스 구현체 -> BasicDataSource 클래스 (bean으로)등록
+        2. SqlSession을 생성해주는 클래스를 등록 -> SqlSessionFactoryBean클래스 (bean으로)등록
+        3. SqlSession클래스 등록 -> SqlSessionTemplate 클래스 (bean으로)등록  (애를 만들려면 1,2번이 필요한거임)
+    -->
+
+    <!-- 객체(빈) 등록 -->
+    <bean id = "dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+        <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+        <property name="username" value="spring" />
+        <property name="password" value="spring" />
+
+    </bean>
+
+
+    <bean id = "sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+
+        <property name="dataSource" ref="dataSource" />
+
+        <!-- mybatis 설정파일, mapper파일 등록-->
+        <!-- classpath 경로는 java폴더부터 resources 폴더까지! -->
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
+
+        <!-- **은 모든 계층 통틀어 다 찾음 -->
+        <property name="mapperLocations" value="classpath:mappers/**/*-mapper.xml" />
+
+    </bean>
+
+
+
+
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+
+        <constructor-arg index="0" ref="sqlSessionFactory" />
+
+    </bean>
+
+
+
+
+
+
 </beans>

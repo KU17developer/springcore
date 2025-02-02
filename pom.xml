@@ -88,6 +88,54 @@
     </dependency>
 
 
+    <!--
+         mybatis적용을 위한 라이브러리(의존성) 등록하기
+         1. ojdbc.jar
+         2. spring-jdbc
+         3. mybatis
+         4. mybatis-spring
+         5. commons-dbcp ( 커넥션 풀을 관리 )
+    -->
+
+
+    <dependency>
+      <groupId>com.oracle.database.jdbc</groupId>
+      <artifactId>ojdbc11</artifactId>
+      <version>23.3.0.23.09</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>${org.springframework-version}</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>3.5.16</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis-spring</artifactId>
+      <version>3.0.2</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>commons-dbcp</groupId>
+      <artifactId>commons-dbcp</artifactId>
+      <version>1.4</version>
+    </dependency>
+
+
+
+
+
   </dependencies>
 
 

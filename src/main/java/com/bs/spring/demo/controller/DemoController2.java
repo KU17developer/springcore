@@ -1,10 +1,8 @@
 package com.bs.spring.demo.controller;
 
+import com.bs.spring.demo.model.dto.Demo;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 // Controller 아래에다가도 @RequestMapping 이렇게 설정할 수 있음.
@@ -77,5 +75,14 @@ public class DemoController2 {
     // @PutMapping
     // @PatchMapping
     // @DeleteMapping
+
+    @RequestMapping("/insertdemo.do")
+    public String insertdemo(@ModelAttribute Demo demo) {
+
+        // DB mybatis
+        // 1. mybatis.jar 파일 가져오기
+        // 2. mybatis 설정파일 필요 (mybatis-config, mapper.xml)
+        // 3. 위에 파일을 가져다 사용하는 SqlSession이 필요! ( SqlSession 안에는 DataSource라는 객체가 필요! )
+    }
 
 }
