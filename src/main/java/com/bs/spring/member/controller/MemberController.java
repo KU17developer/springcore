@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.bs.spring.member.model.dto.Member;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpSession;
 
@@ -83,6 +84,22 @@ public class MemberController {
             return "redirect:/";
         }
 
+    }
+
+    // 로그아웃도 만들어보자!
+    // 로그아웃 로직 만들 때 원래 세션에 있는 값을 가지고 했지만 위에서 model을 가지고 권한상승 시켜서 처리를 했기 때문에
+    // 매개변수에 SessionStatus라는 spring web에서 제공하는 객체를 사용 (애를 가지고 관리하면 됨)
+    // SessionStatus 애는 그냥 의존성 주입 받는거죠. ( 매개변수로 넣었으니 자동으로 의존성 주입 받아지는건가? )
+    // 이젠 스프링 안에서는 SessionStatus가 세션을 관리해서 처리!
+    @RequestMapping("/logout.do")
+    public String logout(SessionStatus status){
+
+        // 만약에 SessionStatus가 완료가 되어있지 않으면 (세션이 아직 살아있으면) 세션을 setComplete(완료시켜라) 해라 즉 세션을 없애라
+        if(!status.isComplete()){
+            status.setComplete(); // session 삭제하는 메소드
+        }
+        // 세션 삭제했으니깐 (로그아웃한거니깐) 리다이렉트 해서 메인으로 가면 됨!
+        return "redirect:/";
     }
 
 }

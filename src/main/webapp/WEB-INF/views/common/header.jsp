@@ -65,8 +65,12 @@
                         <a href="">
                             <c:out value = "${loginMember.userName}"/>
                         </a>
-                        &nbsp; 님, 환영합니다.
-                    </span>
+                        &nbsp;님, 환영합니다.
+                    </span> &nbsp;
+
+                    <button class = "btn btn-outline-danger" onclick="location.replace('${path}/member/logout.do')">
+                        로그아웃
+                    </button>
                 </c:if>
 
 
