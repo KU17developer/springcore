@@ -5,6 +5,7 @@ package com.bs.spring.member.model.service;
 import com.bs.spring.member.model.dao.MemberDao;
 import com.bs.spring.member.model.dto.Member;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 // @Service를 사용해서 빈으로 등록!
@@ -19,9 +20,16 @@ public class MemberServiceImpl implements MemberService {
     private SqlSession session;
 
 
+    // @Autowired는 써줘도 되고 안써줘도 되고 이렇게 생성자로 만들면 안써줘도 되니깐.
+    @Autowired
+    public MemberServiceImpl(MemberDao dao, SqlSession session) {
+        this.dao = dao;
+        this.session = session;
+    }
+
     @Override
     public Member selectmemberById(String id) {
-        // MemberDao 인터페이스에 있는 findMemberById 추상메소드 
+        // MemberDao 인터페이스에 있는 findMemberById 추상메소드
         return dao.findMemberById(session, id);
     }
 

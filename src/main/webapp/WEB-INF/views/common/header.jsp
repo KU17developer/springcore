@@ -48,6 +48,9 @@
                         <a class="nav-link" href="${path}/demo/demolist.do">DemoList</a>
                     </li>
                 </ul>
+
+                <c:if test="${loginMember==null}">
+                <%-- 로그인하면 애네는 안보여야 하잖아.. --%>
                 <button class="btn btn-outline-success my-2 my-sm-0"
                         data-toggle="modal" data-target="#loginModal">로그인</button>
                 &nbsp;
@@ -55,6 +58,18 @@
                         onclick="">
                     회원가입
                 </button>
+                </c:if>
+
+                <c:if test = "${loginMember!=null}">
+                    <span>
+                        <a href="">
+                            <c:out value = "${loginMember.userName}"/>
+                        </a>
+                        &nbsp; 님, 환영합니다.
+                    </span>
+                </c:if>
+
+
             </div>
         </nav>
 

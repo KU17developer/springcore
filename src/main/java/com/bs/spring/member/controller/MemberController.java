@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.bs.spring.member.model.dto.Member;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpSession;
 
@@ -28,6 +29,10 @@ import javax.servlet.http.HttpSession;
 // 나 이거 컨트롤러 만들었어! 스프링한테 알려주기! 스프링 빈 등록!
 @Controller
 @RequestMapping("/member")
+
+// 대괄호 해주고 이렇게 중괄호 안에다 키값을 적어줘야함. ({"loginMember"})
+// 중괄호 하는 이유는 session(으로?)에 올릴 값들을 쉼표해서 여러개 선언할 수도있음.
+@SessionAttributes({"loginMember"})
 public class MemberController {
 
     // 인터페이스의 장점! 구현체가 없더라도 컨트롤러는 완성시킬수가 있음! MemberService를 인터페이스 타입으로 일단 선언시켜놓으면 되니깐!
@@ -59,14 +64,24 @@ public class MemberController {
             model.addAttribute("msg", "아이디와 패스워드가 일치하지 않습니다.");
             // "/" 이거는 메인페이지로 이동.
             model.addAttribute("loc", "/");
+            return "common/msg";
         }else{
             // 로그인 성공
             // 로그인 성공하면 세션에 저장하고 처리해야 하잖아! 그러니깐 매개변수에  HttpSession session 선언!
             // loginMember는 member를 저장!
-            session.setAttribute("loginMember", member);
-            
+            // session.setAttribute("loginMember", member);
+
+
+            // 위에 session.setAttribute("loginMember", member); 이걸 대체해서 쓸 수 있음
+            // moderl은 기본적으로 request와 같은 생명주기를 가지니깐(리다이렉트해서 요청이 새로 오는 순간 날라감) 단순히 이렇게 적으면 안되고 별도의 작업이 필요함
+            // 그 별도의 작업은 model에 저장돼 있는 특정 키를("loginMember") 클래스 선언부 위에다 @SessionAttributes({"loginMember"}) 이렇게 적는것임!
+            // 이렇게 하면 request 범위가 아닌 session범위로 올릴수 있다. ("loginMember"의 키값에 대해서만)
+            // 이젠 session처럼 유지가 된다!
+            model.addAttribute("loginMember", member);
+
+            // 로그인 됐으니깐 메인으로 ! ( 로그인 로직 계속 돌아가면 안되니깐 리다이렉트 )
+            return "redirect:/";
         }
-        return "";
 
     }
 
