@@ -5,6 +5,7 @@ import com.bs.spring.demo.model.service.DemoService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 //@AllArgsConstructor
@@ -97,7 +98,7 @@ public class DemoController2 {
     // @DeleteMapping
 
     @RequestMapping("/insertdemo.do")
-    public String insertdemo(@ModelAttribute Demo demo) {
+    public String insertdemo(@ModelAttribute Demo demo, Model model) {
 
         // DB mybatis
         // 1. mybatis.jar 파일 가져오기
@@ -106,8 +107,13 @@ public class DemoController2 {
 
         int result = demoService.insertDemo(demo);
         System.out.println(result);
-        if (result > 0) {}
-        else{}
+        if (result > 0) {
+            model.addAttribute("msg", "저장성공");
+            model.addAttribute("loc", "/");
+        }
+        else{
+            //model.addAttribute()
+        }
         // 입력구문이니깐 메인으로 이동하게 만들자!
         // 여기서 redirect를 이용하는걸 prg패턴(post로 요청한걸 get으로 다시 재요청하도록 만드는)이라고도 한다.
         return "redirect:/";

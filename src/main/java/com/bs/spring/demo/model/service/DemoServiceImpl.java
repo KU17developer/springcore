@@ -52,7 +52,7 @@ public class DemoServiceImpl implements DemoService {
 
     @Override
     public int insertDemo(Demo demo) {
-        return 0;
+        return demoDao.insertDemo(sqlSession, demo);
     }
 
     @Override
