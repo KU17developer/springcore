@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--
+    rootcontext.xml에서
+
+    <property name="mapperLocations" value="classpath:mappers/**/*-mapper.xml" />
+    이런식으로 만들어 줬으니 경로하고 파일명 잘 준수해주는거 잊지 말기!
+
+    여기 인텔리제이는 오토커밋 아니니 항상 commit 잘하는 습관을 들이자!
+-->
+
+<mapper namespace="member">
+
+    <resultMap id="memberMap" type="member">
+        <result column="hobby" property="hobby" typeHandler="strArr"/>
+    </resultMap>
+    
+
+
+    <!-- 체크박스(hobby)로 체크한게 있기때문에 resultMap을 사용해야함 -->
+    <select id="findMemberById" resultMap="memberMap" parameterType="string" >
+
+        /* 속도 향상을 위해 (컬럼 지정)SELECT * 쓰지말고 필요한 데이터만 가져오자  */
+        SELECT * FROM MEMBER WHERE USERID=#{userId}
+
+    </select>
+
+</mapper>
