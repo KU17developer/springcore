@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 //@AllArgsConstructor
 
 @Controller
@@ -112,11 +114,23 @@ public class DemoController2 {
             model.addAttribute("loc", "/");
         }
         else{
-            //model.addAttribute()
+            model.addAttribute("msg", "저장실패");
+            model.addAttribute("loc", "/demo/demo.do");
         }
         // 입력구문이니깐 메인으로 이동하게 만들자!
         // 여기서 redirect를 이용하는걸 prg패턴(post로 요청한걸 get으로 다시 재요청하도록 만드는)이라고도 한다.
-        return "redirect:/";
+//        return "redirect:/";
+
+        return "common/msg";
+
+    }
+
+    // 게시판을 조회해보자!
+    @GetMapping("demolist.do")
+    public String demoList(Model model) {
+        List<Demo> demos = demoService.selectDemoList();
+        model.addAttribute("demos", demos);
+        return "demo/demoList";
     }
 
 }

@@ -6,7 +6,9 @@
   <!--RootContext(전역) 에서 사용할 spring bean configuration 등록-->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>/WEB-INF/spring/root-context.xml</param-value>
+    <param-value>
+      /WEB-INF/spring/root-context.xml
+    </param-value>
   </context-param>
 
   <!--springcontainer 초기화 리스너를 등록 > spring-webmvc에서 제공하는 클래스-->
@@ -48,6 +50,7 @@
     <filter-name>encodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+
 
 
 

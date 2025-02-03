@@ -47,7 +47,7 @@ public class DemoServiceImpl implements DemoService {
 
     @Override
     public List<Demo> selectDemoList() {
-        return null;
+        return demoDao.selectDemoList(sqlSession);
     }
 
     @Override

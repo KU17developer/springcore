@@ -14,7 +14,7 @@ public class DemoDaoImpl implements DemoDao {
 
     @Override
     public List<Demo> selectDemoList(SqlSession session) {
-        return null;
+        return session.selectList("demo.selectDemoList");
     }
 
     @Override
