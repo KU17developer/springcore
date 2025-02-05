@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.bs.spring.member.model.dto.Member;
@@ -101,5 +102,16 @@ public class MemberController {
         // 세션 삭제했으니깐 (로그아웃한거니깐) 리다이렉트 해서 메인으로 가면 됨!
         return "redirect:/";
     }
+
+
+    // 회원가입을 만들어보자!
+    // 어차피 Get으로 요청할거니깐 GetMapping을 사용해보자!
+    // /member/enrollmember.do -> /WEB-INF/views/member
+    @GetMapping("/enrollmember.do")
+    public String enrollmemberPage() {
+        return "member/enrollMember";
+    }
+
+
 
 }
