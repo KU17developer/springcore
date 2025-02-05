@@ -75,7 +75,7 @@ public class MemberController {
 
 
             // 위에 session.setAttribute("loginMember", member); 이걸 대체해서 쓸 수 있음
-            // moderl은 기본적으로 request와 같은 생명주기를 가지니깐(리다이렉트해서 요청이 새로 오는 순간 날라감) 단순히 이렇게 적으면 안되고 별도의 작업이 필요함
+            // model은 기본적으로 request와 같은 생명주기를 가지니깐(리다이렉트해서 요청이 새로 오는 순간 날라감) 단순히 이렇게 적으면 안되고 별도의 작업이 필요함
             // 그 별도의 작업은 model에 저장돼 있는 특정 키를("loginMember") 클래스 선언부 위에다 @SessionAttributes({"loginMember"}) 이렇게 적는것임!
             // 이렇게 하면 request 범위가 아닌 session범위로 올릴수 있다. ("loginMember"의 키값에 대해서만)
             // 이젠 session처럼 유지가 된다!
@@ -106,11 +106,22 @@ public class MemberController {
 
     // 회원가입을 만들어보자!
     // 어차피 Get으로 요청할거니깐 GetMapping을 사용해보자!
-    // /member/enrollmember.do -> /WEB-INF/views/member
-    @GetMapping("/enrollmember.do")
-    public String enrollmemberPage() {
-        return "member/enrollMember";
-    }
+    // 단순 페이지 이동이니 아래와 같은 방식으로 바꿀 수 있다!
+//    @GetMapping("/enrollmember.do")
+//    public String enrollmemberPage() {
+//        return "member/enrollMember";
+//    }
+
+    // 데이터 받는것도 없는 그냥 일반적인 페이지 연결
+    // 그럴때는 이렇게 쓸 수도 있다.
+    // 조건 /member/enrollmember.do -> /WEB-INF/views/member/enrollmember.jsp
+    // 여기서 /member/enrollmember(매핑주소) 이부분하고 화면을 반환하는 값인 /member/enrollmember(jsp경로) 이 부분하고 일치하면
+    // 이렇게 쓰는것도 가능함
+    // 이렇게 쓸 때 타입은 void로 해놓고, 당연히 단순 페이지 이동이라 아무것도 받을게 없으니깐 마직막에는 (){} 이렇게 작성.
+    // 이런식으로 아무것도 응답이 없을때 메핑주소, 앞에 있는 서버 주소랑 컨텍스트 주소 빼고 확장자도 뺀 다음 그거를 반환해서 페이지 이동시킴.
+    // view jsp 경로와 파일명이 매핑주소(확장자를 뺀 나머지 매핑주소)와 내가 찾아가는 view 주소가 같을 때는 이렇게만 쓰고 끝낼 수 있다.
+    @GetMapping("/enroll/member.do")
+    public void enrollmember(){}
 
 
 
