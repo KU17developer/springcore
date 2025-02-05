@@ -5,11 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import com.bs.spring.member.model.dto.Member;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import javax.servlet.http.HttpSession;
@@ -120,9 +117,10 @@ public class MemberController {
     // 이렇게 쓸 때 타입은 void로 해놓고, 당연히 단순 페이지 이동이라 아무것도 받을게 없으니깐 마직막에는 (){} 이렇게 작성.
     // 이런식으로 아무것도 응답이 없을때 메핑주소, 앞에 있는 서버 주소랑 컨텍스트 주소 빼고 확장자도 뺀 다음 그거를 반환해서 페이지 이동시킴.
     // view jsp 경로와 파일명이 매핑주소(확장자를 뺀 나머지 매핑주소)와 내가 찾아가는 view 주소가 같을 때는 이렇게만 쓰고 끝낼 수 있다.
-    @GetMapping("/enroll/member.do")
-    public void enrollmember(){}
+//    @GetMapping("/enroll/member.do")
+//    public void enrollmember(){}
 
-
+    // 저장은 Post로 받으니깐 이렇게 해도되지! @PostMapping
+    @PostMapping
 
 }
