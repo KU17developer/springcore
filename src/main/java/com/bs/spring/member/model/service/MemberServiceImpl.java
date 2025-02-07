@@ -33,4 +33,12 @@ public class MemberServiceImpl implements MemberService {
         return dao.findMemberById(session, id);
     }
 
+
+    // 오버라이드 단축키는 ctrl + o다!
+    @Override
+    public int saveMember(Member member) {
+        return dao.saveMember(session, member);
+    }
+
+
 }

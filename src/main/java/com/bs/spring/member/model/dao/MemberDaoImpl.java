@@ -13,4 +13,9 @@ public class MemberDaoImpl implements MemberDao {
         return session.selectOne("member.findMemberById", id);
     }
 
+    @Override
+    public int saveMember(SqlSession session, Member member) {
+        return session.insert("member.saveMember", member);
+    }
+
 }

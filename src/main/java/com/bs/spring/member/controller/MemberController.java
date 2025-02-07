@@ -120,7 +120,37 @@ public class MemberController {
 //    @GetMapping("/enroll/member.do")
 //    public void enrollmember(){}
 
+
+    // 회원가입을 만들어보자!
     // 저장은 Post로 받으니깐 이렇게 해도되지! @PostMapping
-    @PostMapping
+    @PostMapping("/enrollmemberend.do")
+    public String enrollmemberend(Member inputMember, Model model) {    // Model 저장 실패하거나 성공할떄 메세지 출력할려고 사용!
+
+        // MyBatis에서 DML(INSERT, UPDATE, DELETE) 문을 실행한 결과는 int 값으로 반환됩니다.
+        int result = service.saveMember(inputMember);
+
+        String msg, loc, viewName = "common/msg";
+        if(result > 0) {
+
+//            msg = "회원가입성공";
+//            loc = "/";
+
+            // 만약 굳이 메세지를 출력하고 싶지 않다면 이런식으로!
+//            return "redirect:/";
+
+            // 이런식으로 해도 되고.. return "redirect:/"; 이거랑 똑같은거임 어차피 지금 밑에서 viewName으로 리턴해주고 있으니깐!
+              viewName = "redirect:/";
+        }else{
+            msg = "회원가입실패";
+
+            // 다시 회원가입 페이지로!
+            loc = "/member/enrollmember.do";
+            model.addAttribute("msg", msg);
+            model.addAttribute("loc", loc);
+        }
+
+        return viewName;
+
+    }
 
 }
