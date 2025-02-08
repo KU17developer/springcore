@@ -18,13 +18,15 @@
     
 
 
-    <!-- 체크박스(hobby)로 체크한게 있기때문에 resultMap을 사용해야함 -->
+    <!-- 체크박스(hobby)로 체크한게 있기 때문에 resultMap을 사용해야함 -->
     <select id="findMemberById" resultMap="memberMap" parameterType="string" >
 
         /* 속도 향상을 위해 (컬럼 지정)SELECT * 쓰지말고 필요한 데이터만 가져오자  */
         SELECT * FROM MEMBER WHERE USERID=#{userId}
 
     </select>
+
+
 
     <!-- (insert니깐?) 리절트에 대해서는 안써도 된다. 왜냐하면 그동안 썼으니깐?
 
@@ -38,7 +40,8 @@
     -->
     <insert id="saveMember" parameterType="member">
 
-
+        INSERT INTO MEMBER VALUES (#{userId}, #{password}, #{userName}, #{gender}, #{age}, #{email}, #{phone}, #{address},
+                                   #{hobby, typeHandler = strArr}, sysdate)
 
     </insert>
 

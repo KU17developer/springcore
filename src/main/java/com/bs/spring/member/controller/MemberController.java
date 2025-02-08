@@ -3,6 +3,8 @@ package com.bs.spring.member.controller;
 import com.bs.spring.member.model.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,14 +39,34 @@ public class MemberController {
     // 인터페이스의 장점! 구현체가 없더라도 컨트롤러는 완성시킬수가 있음! MemberService를 인터페이스 타입으로 일단 선언시켜놓으면 되니깐!
     // 즉 안에 구현체가 완성되지 않았더라도 인터페이스를 일단 만들어 놓았기에 이걸 타입으로 쓸 수 있는거임!
     private final MemberService service;
+    private final BCryptPasswordEncoder passwordEncoder;
+
+
+    // 패스워드 암호화는 회원가입할때도 쓰지만 로그인 할때도(암호화 돼있는걸 체킹해서 확인해야되니깐) 써야됨!
+    // 빈으로 등록했으니 new BCryptPasswordEncoder() 해줄 필요는 없고 바로 의존성 주입 받자!
+    // 의존성 주입은 밑에 생성자 메소드로 받을거임!
+    private BCryptPasswordEncoder encoder;
+
+
 
     // 이렇게 쓰는것도 가능. private final MemberService service; 이거 선언하고 alt + insert 하면된다! ( 이렇게 생성자 선언하면 주입 받음 )
     // 이렇게 하면 @RequiredArgsConstructor, @AllArgsConstructor 이것을 한거나 마찬가지니깐 이런 어노테이션 선언할 필요가 없어짐.
     // 내가 편한걸 쓰면 된다!
     // MemberService는 인터페이스 타입이니깐 주입할려할때 애에 대한 "구현체!!"를 찾으려함! 그래서 MemberServiceImpl 까지 만들어서 그것도 빈으로 등록해줘야 정상 작동!
-    public MemberController(MemberService service) {
+    // @Autowired 이건 해줘도  되고 안해줘도 되구.
+    public MemberController(MemberService service, BCryptPasswordEncoder encoder, BCryptPasswordEncoder passwordEncoder) {
         this.service = service;
+        this.encoder = encoder;
+        this.passwordEncoder = passwordEncoder;
     }
+
+
+
+
+
+
+
+
 
 
 // 요청을 받는 매핑메소드를 만들자!
@@ -57,8 +79,16 @@ public class MemberController {
         // 찾은 member를 가져오자
         Member member = service.selectmemberById(userId);
 
+        // 원본값과 암호화값을 비교하는 메소드를 제공해줌!! (원본값, 디비에서 가져온 암호화 된 값) 불린형을 반환
+        // passwordEncoder.matches(pw, member.getPassword()); <-- 이젠 이걸 사용해서 비교하자.
+
+
         // member가 null이거나 패스워드가 일치하지 않으면 로그인 실패!
-        if(member == null || !member.getPassword().equals(pw)) {
+        // member.getPassword() 이렇가 하면 암호환(해싱)된 번호를 가져옴 ㅠㅠ 이렇게(member.getPassword()) 비교하면 안돼!
+//        if(member == null || !member.getPassword().equals(pw)) {
+
+        // 암호화 해놨으니 이젠 이렇게 비교해야돼! passwordEncoder.matches(pw, member.getPassword())가 false이면! 실패!
+        if(member == null || !passwordEncoder.matches(pw, member.getPassword())) {
             // 로그인 실패
             model.addAttribute("msg", "아이디와 패스워드가 일치하지 않습니다.");
             // "/" 이거는 메인페이지로 이동.
@@ -121,10 +151,26 @@ public class MemberController {
 //    public void enrollmember(){}
 
 
+
+
     // 회원가입을 만들어보자!
     // 저장은 Post로 받으니깐 이렇게 해도되지! @PostMapping
     @PostMapping("/enrollmemberend.do")
     public String enrollmemberend(Member inputMember, Model model) {    // Model 저장 실패하거나 성공할떄 메세지 출력할려고 사용!
+
+        // 패스워드 암호화는 회원가입할때도 쓰지만 로그인 할때도(암호화 돼있는걸 체킹해서 확인해야되니깐) 써야됨!
+        // 저장하기 전의 BCryptPasswordEcoder를 이용해서 비밀번호 암호화 하기
+        // inputMember.getPassword()  : inputMember에 들어온 getPassword 값을 인코드 할거다!
+        // 등록은 MyWebAppConfig에서 빈등록해서 사용하는거니 공부할 때 볼거면 봐보자~
+        String encPw = encoder.encode(inputMember.getPassword());
+        System.out.println(encPw);
+
+        
+        // 암호화 된걸 어떻게 해야하냐면 inputMember.setPassword에다가 encPw를 넣어줘야된다. 암호화된걸 DB에 저장할거야!
+        // 이젠 암호화 했으니깐 로그인 할 때 equals로 비교하지 말자. 그럼 해싱처리된 값이랑 비교해서 로그인 안됨 ㅠㅠ
+        // 두개의 값이 일치하는지 일치안하는지 비교하는 메소드를 또 따로 제공해줌.. 그걸 이용해서 로그인 유효성 검사하면되지~
+        inputMember.setPassword(encPw);
+        
 
         // MyBatis에서 DML(INSERT, UPDATE, DELETE) 문을 실행한 결과는 int 값으로 반환됩니다.
         int result = service.saveMember(inputMember);
