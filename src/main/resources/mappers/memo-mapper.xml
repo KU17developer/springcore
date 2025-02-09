@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!--
+    rootcontext.xml에서
+
+    <property name="mapperLocations" value="classpath:mappers/**/*-mapper.xml" />
+    이런식으로 만들어 줬으니 경로하고 파일명 잘 준수해주는거 잊지 말기!
+
+    여기 인텔리제이는 오토커밋 아니니 항상 commit 잘하는 습관을 들이자!
+-->
+
+<mapper namespace="memo">
+    <!--  parameter는 없고 resultType이라고 해도 문제없음. 이름 다 똑같으니깐!  -->
+    <select id="selectMemo" resultType="memo">
+        SELECT * FROM MEMO
+    </select>
+
+
+    <insert id = "insertMemo" parameterType="memo">
+        INSERT INTO MEMO VALUES (SEQ_MEMONO.NEXTVAL, #{memo}, #{password}, sysdate )
+    </insert>
+
+</mapper>
