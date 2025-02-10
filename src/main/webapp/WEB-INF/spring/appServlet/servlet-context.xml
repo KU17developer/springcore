@@ -136,6 +136,20 @@
   </bean>
 
 
+  <!-- 인터셉터 이용하기 -->
+  <!-- 인터셉터로 활용할 BasicInterceptor를 빈으로 등록해서 가져다 쓰자! -->
+  <!-- 그냥 기본 생성! 메소드만 갖고있는 거니깐! 필드나 이런거 초기화할게 없잖아!-->
+  <bean id = "basicinter" class = "com.bs.spring.common.interceptor.BasicInterceptor"/>
+
+  <mvc:interceptors>
+    <mvc:interceptor>
+      <!-- 주소 매핑! 일단 전체를 해보자!(/**) (<ref bean = "basicinter"/> 이 빈을 전체적용해본거임) -->
+      <mvc:mapping path="/**"/>
+
+      <!-- bean id 적기!  -->
+      <ref bean = "basicinter"/>
+    </mvc:interceptor>
+  </mvc:interceptors>
 
 
 </beans>
