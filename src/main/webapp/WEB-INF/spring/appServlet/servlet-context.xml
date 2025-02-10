@@ -139,16 +139,35 @@
   <!-- 인터셉터 이용하기 -->
   <!-- 인터셉터로 활용할 BasicInterceptor를 빈으로 등록해서 가져다 쓰자! -->
   <!-- 그냥 기본 생성! 메소드만 갖고있는 거니깐! 필드나 이런거 초기화할게 없잖아!-->
-  <bean id = "basicinter" class = "com.bs.spring.common.interceptor.BasicInterceptor"/>
+<!--  <bean id = "basicinter" class = "com.bs.spring.common.interceptor.BasicInterceptor"/>-->
 
   <mvc:interceptors>
     <mvc:interceptor>
       <!-- 주소 매핑! 일단 전체를 해보자!(/**) (<ref bean = "basicinter"/> 이 빈을 전체적용해본거임) -->
-      <mvc:mapping path="/**"/>
+      <!-- <mvc:mapping path="/**"/> -->
+
+      <!-- member  prefix를 갖는 주소들 전부 다 거쳐가! -->
+      <mvc:mapping path="/member/**"/>
 
       <!-- bean id 적기!  -->
       <ref bean = "basicinter"/>
     </mvc:interceptor>
+
+
+
+
+
+    <mvc:interceptor>
+      <mvc:mapping path="/**"/>
+      
+      <!-- 전체페이지 중에서 메인페이지는 로그인 안해도 들어갈 수 있게 해줘야지; ㅠㅠ -->
+      <mvc:exclude-mapping path="/"/>
+      <!-- 로그인 회원가입 로그아웃은 제외-->
+      <mvc:exclude-mapping path="/member/**"/>
+      <ref bean = "loginCheck"/>
+    </mvc:interceptor>
+
+
   </mvc:interceptors>
 
 
