@@ -5,6 +5,7 @@ import com.bs.spring.demo.model.dao.DemoDao;
 import com.bs.spring.demo.model.dto.Demo;
 import com.bs.spring.demo.model.service.DemoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -18,7 +19,7 @@ public class BasicInterceptor implements HandlerInterceptor {
 
 
     // ctrl + o 단축키 눌러서 추상메소드들 전부 가져오기
-    // 인터셉터는 Controller 가기 전 , 실행 후, 실행하고 restreun까지 전부 한 후에 이렇게 메소드로 조건을 줄 수 있음
+    // 인터셉터는 Controller 가기전 , 실행 후, 실행하고 restreun까지 전부 한 후에 이렇게 메소드로 조건을 줄 수 있음
     // 인터셉터의 장점 : 스프링 컨테이너 안에 있으니깐 @Autowird 해서 데이터를 받을 수도 있음. (필터는 불가능)
     @Autowired
     private DemoService demoService;
@@ -73,6 +74,7 @@ public class BasicInterceptor implements HandlerInterceptor {
         
 
     }
+
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {

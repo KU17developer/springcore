@@ -158,12 +158,15 @@
 
 
     <mvc:interceptor>
+      <!-- /** 쓸때 resources 같은거 제대로 업로드 안되는것처럼 조금 예외처리할거 생각하면서 쓰자~-->
       <mvc:mapping path="/**"/>
       
       <!-- 전체페이지 중에서 메인페이지는 로그인 안해도 들어갈 수 있게 해줘야지; ㅠㅠ -->
       <mvc:exclude-mapping path="/"/>
       <!-- 로그인 회원가입 로그아웃은 제외-->
       <mvc:exclude-mapping path="/member/**"/>
+      <!-- resources(img 등)에 있는 파일들 홈페이지에 업로드가 안되니 이것도 추가!-->
+      <mvc:exclude-mapping path="/resources/**"/>
       <ref bean = "loginCheck"/>
     </mvc:interceptor>
 

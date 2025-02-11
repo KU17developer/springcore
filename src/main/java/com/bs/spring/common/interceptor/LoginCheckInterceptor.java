@@ -23,7 +23,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         if (loginMember == null) {
             request.setAttribute("msg", "로그인 후 이용할 수 있습니다.");
             request.setAttribute("loc", "/");
-            request.getRequestDispatcher("WEB-INF/views/common/msg.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp").forward(request, response);
             return false;
         }
         return true;
