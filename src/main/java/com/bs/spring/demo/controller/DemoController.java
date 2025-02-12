@@ -25,8 +25,9 @@ import java.util.Map;
 public class DemoController {
 
     // 단순히 페이지 전환용!
+    // 1.20일 invalidator 사용할려고 약간 수정!
     @RequestMapping("/demo/demo.do")
-    public String demo() {
+    public String demo(@ModelAttribute("demo") Demo demo) {
         return "demo/demo";
     }
 

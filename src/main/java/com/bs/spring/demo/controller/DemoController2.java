@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -100,7 +102,21 @@ public class DemoController2 {
     // @DeleteMapping
 
     @RequestMapping("/insertdemo.do")
-    public String insertdemo(@ModelAttribute Demo demo, Model model) {
+    /* 1. 20일 invalidaotr 실습!
+    *  @Validated Demo demo 이렇게 쓰면 넘어온 데이터를 체크함!
+    *  BindingResult bindingResult 객체에다 체크한 결과를 알려줌!
+    *  */
+    public String insertdemo(@ModelAttribute @Validated Demo demo, BindingResult bindingResult, Model model) {
+
+        // 1.20일 실습 validate 체크한 결과중에 에러가 있으면
+        if (bindingResult.hasErrors()) {
+            System.out.println("에러 발생!");
+            System.out.println(bindingResult);
+        // 1.20일 실습 다시 입력하는 창으로 리턴!
+            return "demo/demo";
+        }
+
+
 
         // DB mybatis
         // 1. mybatis.jar 파일 가져오기
